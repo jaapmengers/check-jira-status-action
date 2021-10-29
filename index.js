@@ -4,7 +4,7 @@ const JiraApi = require('jira-client');
 
 async function run() {
   try {
-    getJiraInfo();
+    getJiraInfo('A20-4053');
 
     const payload = JSON.stringify(github.context.payload, undefined, 2);
     console.log(`The event payload: ${payload}`);
