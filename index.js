@@ -9,7 +9,7 @@ async function run() {
 
     console.log(`Found issue nr ${issueNr}`);
 
-    const status = getJiraInfo(issueNr);
+    const status = await getJiraInfo(issueNr);
 
     console.log(`Has status ${status}`);
 
