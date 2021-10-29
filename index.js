@@ -7,7 +7,11 @@ async function run() {
     const { ref } = github.context.payload;
     const issueNr = ref.match(/.*(A20-\d{4}).*/)[1]
 
+    console.log(`Found issue nr ${issueNr}`);
+
     const status = getJiraInfo(issueNr);
+
+    console.log(`Has status ${status}`);
 
     const acceptable = ['PO review', 'Done']
 
@@ -15,6 +19,7 @@ async function run() {
       throw 'PR cannot be merged until JIRA ticket has state Done or PO review';
     }
   } catch (error) {
+    console.error('Got error', error);
     core.setFailed(error.message);
   }
 }
@@ -34,8 +39,6 @@ async function getJiraInfo(issueNumber) {
   });
 
   const info = await jira.findIssue(issueNumber);
-
-  console.log(JSON.stringify(info, null, 2));
   return info.fields.status.name;
 }
 
