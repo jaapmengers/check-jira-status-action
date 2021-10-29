@@ -4,10 +4,16 @@ const JiraApi = require('jira-client');
 
 async function run() {
   try {
-    getJiraInfo('A20-4053');
+    const { ref } = github.context.payload;
+    const issueNr = ref.match(/.*(A20-\d{4}).*/)[1]
 
-    const payload = JSON.stringify(github.context.payload, undefined, 2);
-    console.log(JSON.stringify(payload, null, 2));
+    const status = getJiraInfo(issueNr);
+
+    const acceptable = ['PO review', 'Done']
+
+    if (!acceptable.includes(status)) {
+      throw 'PR cannot be merged until JIRA ticket has state Done or PO review';
+    }
   } catch (error) {
     core.setFailed(error.message);
   }
@@ -30,6 +36,7 @@ async function getJiraInfo(issueNumber) {
   const info = await jira.findIssue(issueNumber);
 
   console.log(JSON.stringify(info, null, 2));
+  return info.fields.status.name;
 }
 
 run();
