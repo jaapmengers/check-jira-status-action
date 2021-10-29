@@ -1,0 +1,18 @@
+name: 'Check Jira status'
+description: 'Check if ticket was tested before allowing merge'
+inputs:
+  jira_user:
+    description: The email of the jira user.
+    required: true
+  jira_token:
+    description: The API token associated to the user.
+    required: true
+  jira_url:
+    description: The base URL for jira
+    required: true
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'node12'
+  main: 'index.js'
