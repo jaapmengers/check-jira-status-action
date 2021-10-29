@@ -51411,14 +51411,13 @@ async function run() {
     getJiraInfo('A20-4053');
 
     const payload = JSON.stringify(github.context.payload, undefined, 2);
-    console.log(`The event payload: ${payload}`);
+    console.log(JSON.stringify(payload, null, 2));
   } catch (error) {
     core.setFailed(error.message);
   }
 }
 
 async function getJiraInfo(issueNumber) {
-  // `who-to-greet` input defined in action metadata file
   const user = core.getInput('jira_user');
   const token = core.getInput('jira_token');
   const url = core.getInput('jira_url');
@@ -51434,7 +51433,7 @@ async function getJiraInfo(issueNumber) {
 
   const info = await jira.findIssue(issueNumber);
 
-  console.log({ info });
+  console.log(JSON.stringify(info, null, 2));
 }
 
 run();
